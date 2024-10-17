@@ -14,11 +14,14 @@ public class spike_code : MonoBehaviour
     
     public GameObject respawn;
     private GameObject player;
-
+    public GameObject Pause_button;
     public AudioClip gameOverSound;  
     private AudioSource audioSource;
+    private Animator redspike;
     void Start(){
+
         player = GameObject.FindGameObjectWithTag("Player");
+        redspike = GetComponent<Animator>();
         if (yes_button != null) {
             Button yesBt = yes_button.GetComponent<Button>();
             yesBt.onClick.AddListener(OnYesButtonClick);
@@ -47,9 +50,17 @@ public class spike_code : MonoBehaviour
                 if(yes_button != null) yes_button.SetActive(true);
                 if(no_button != null) no_button.SetActive(true);
 
+                if(redspike != null){
+                    redspike.enabled = false;
+                }
+
                 if (gameOverSound != null && audioSource != null)
                 {
                     audioSource.PlayOneShot(gameOverSound);
+                }
+
+                if (Pause_button != null){
+                    Pause_button.SetActive(false);
                 }
 
 
@@ -69,6 +80,7 @@ public class spike_code : MonoBehaviour
             if(try_again != null) try_again.SetActive(false);
             if(yes_button != null) yes_button.SetActive(false);
             if(no_button != null) no_button.SetActive(false);
+            if(Pause_button != null) Pause_button.SetActive(true);
 
             Movement catmove = player.GetComponent<Movement>();
             Rigidbody2D cat_Rb = player.GetComponent<Rigidbody2D>();
@@ -80,6 +92,9 @@ public class spike_code : MonoBehaviour
 
             cat_Rb.constraints = RigidbodyConstraints2D.None;
             cat_Rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
+        if(redspike != null){
+            redspike.enabled = true;
             }
         }
     }
